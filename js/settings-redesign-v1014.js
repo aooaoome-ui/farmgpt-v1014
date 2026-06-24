@@ -77,6 +77,71 @@
     document.head.appendChild(style);
   }
 
+  function ensureAlignmentStyle(){
+    if (q('#settings-card-alignment-v1014-style')) return;
+    const style = document.createElement('style');
+    style.id = 'settings-card-alignment-v1014-style';
+    style.textContent =
+      '#page-settings.settings-redesign-v1014{--sr-gap:12px;--sr-card-min:0}' +
+      '#page-settings.settings-redesign-v1014 *{box-sizing:border-box}' +
+      '#page-settings.settings-redesign-v1014 .settings-panel-v1014{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sr-gap);align-items:stretch;grid-auto-flow:dense}' +
+      '#page-settings.settings-redesign-v1014 .settings-panel-v1014>*{min-width:0;max-width:100%}' +
+      '#page-settings.settings-redesign-v1014 .settings-section-card{min-width:0;max-width:100%;height:100%;word-break:normal;overflow-wrap:break-word;line-break:auto}' +
+      '#page-settings.settings-redesign-v1014 .settings-section-title,#page-settings.settings-redesign-v1014 .settings-section-sub,#page-settings.settings-redesign-v1014 .form-label,#page-settings.settings-redesign-v1014 label,#page-settings.settings-redesign-v1014 .settings-domain-title,#page-settings.settings-redesign-v1014 .settings-domain-sub,#page-settings.settings-redesign-v1014 .behavior-title,#page-settings.settings-redesign-v1014 .behavior-sub,#page-settings.settings-redesign-v1014 .behavior-field,#page-settings.settings-redesign-v1014 .settings-chip-wrap span{white-space:normal;word-break:normal;overflow-wrap:break-word;line-break:auto}' +
+      '#page-settings.settings-redesign-v1014 input,#page-settings.settings-redesign-v1014 textarea,#page-settings.settings-redesign-v1014 select{min-width:0;max-width:100%}' +
+      '#settings-panel-general-v1014>.settings-farm-card-v1014,#settings-panel-workflow-v1014>.settings-workflow-card-v1014,#settings-panel-backup-v1014>#backup-restore-control-center-v1013,#settings-panel-backup-v1014>.settings-danger-zone,#settings-panel-system-v1014>.settings-section-card{grid-column:1/-1!important}' +
+      '#settings-panel-general-v1014>.settings-workers-card-v1014,#settings-panel-general-v1014>.settings-plots-card-v1014,#settings-panel-backup-v1014>.settings-export-card-v1014,#settings-panel-backup-v1014>#data-health-gate-v103{grid-column:auto!important}' +
+      '#page-settings.settings-redesign-v1014 #settings-panel-general-v1014>.settings-farm-card-v1014,#page-settings.settings-redesign-v1014 #settings-panel-workflow-v1014>.settings-workflow-card-v1014,#page-settings.settings-redesign-v1014 #settings-panel-backup-v1014>.settings-danger-zone,#page-settings.settings-redesign-v1014 #settings-panel-system-v1014>.settings-section-card{grid-column:1/-1!important}' +
+      '#settings-panel-general-v1014>.settings-workers-card-v1014,#settings-panel-general-v1014>.settings-plots-card-v1014{display:flex;flex-direction:column}' +
+      '#settings-panel-general-v1014 .settings-chip-wrap{align-content:flex-start;min-height:42px}' +
+      '#settings-panel-general-v1014 .settings-chip-wrap+div{margin-top:auto}' +
+      '#settings-panel-workflow-v1014>.settings-workflow-card-v1014{width:100%}' +
+      '#settings-panel-workflow-v1014 #settings-default-groups-v0669{display:grid!important;grid-template-columns:repeat(2,minmax(330px,1fr));gap:12px;align-items:stretch;width:100%;min-width:0}' +
+      '#settings-panel-workflow-v1014 #settings-default-groups-v0669 .settings-domain-panel{min-width:0;height:100%;display:flex;flex-direction:column}' +
+      '#settings-panel-workflow-v1014 #settings-default-groups-v0669 .settings-domain-head{align-items:flex-start;gap:10px}' +
+      '#settings-panel-workflow-v1014 #settings-default-groups-v0669 .settings-domain-head>div{min-width:0}' +
+      '#settings-panel-workflow-v1014 #settings-default-groups-v0669 .settings-domain-chip{flex:0 0 auto}' +
+      '#settings-panel-workflow-v1014 #settings-default-groups-v0669 .settings-domain-fields{grid-template-columns:repeat(2,minmax(150px,1fr));gap:10px;align-items:start}' +
+      '#settings-panel-workflow-v1014 #settings-default-groups-v0669 .form-group,#settings-panel-workflow-v1014 #settings-notification-behavior-v0670 .behavior-field{min-width:0}' +
+      '#settings-panel-workflow-v1014 #settings-default-groups-v0669 .form-control{width:100%}' +
+      '#settings-panel-workflow-v1014 #shelf-by-type-list{grid-template-columns:repeat(2,minmax(130px,1fr))!important;gap:8px!important}' +
+      '#settings-panel-workflow-v1014 #shelf-by-type-list>*{min-width:0}' +
+      '#settings-panel-workflow-v1014 #settings-notification-behavior-v0670{min-width:0;width:100%}' +
+      '#settings-panel-workflow-v1014 #settings-notification-behavior-v0670 .behavior-grid{grid-template-columns:repeat(2,minmax(160px,1fr));gap:10px}' +
+      '#settings-panel-workflow-v1014 #settings-notification-behavior-v0670 .behavior-toggle{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start}' +
+      '#settings-panel-workflow-v1014 #settings-notification-behavior-v0670 .behavior-input-row{display:grid;grid-template-columns:minmax(0,1fr) auto}' +
+      '#settings-panel-workflow-v1014 #settings-notification-behavior-v0670 input[type="number"]{width:100%;min-width:72px}' +
+      '#settings-panel-backup-v1014>.settings-export-card-v1014,#settings-panel-backup-v1014>#data-health-gate-v103{height:100%;display:flex!important;flex-direction:column}' +
+      '#settings-panel-backup-v1014>#backup-restore-control-center-v1013{order:1}' +
+      '#settings-panel-backup-v1014>.settings-export-card-v1014{order:2}' +
+      '#settings-panel-backup-v1014>#data-health-gate-v103{order:3}' +
+      '#settings-panel-backup-v1014>.settings-danger-zone{order:4}' +
+      '#page-settings.settings-redesign-v1014 #settings-panel-backup-v1014>#backup-restore-control-center-v1013{order:1!important}' +
+      '#page-settings.settings-redesign-v1014 #settings-panel-backup-v1014>.settings-export-card-v1014{order:2!important}' +
+      '#page-settings.settings-redesign-v1014 #settings-panel-backup-v1014>#data-health-gate-v103{order:3!important}' +
+      '#page-settings.settings-redesign-v1014 #settings-panel-backup-v1014>.settings-danger-zone{order:4!important}' +
+      '#settings-panel-backup-v1014>.settings-export-card-v1014 .settings-export-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-rows:1fr;gap:8px!important;align-items:stretch;flex:1}' +
+      '#settings-panel-backup-v1014>.settings-export-card-v1014 .settings-export-btn{min-height:54px!important;height:100%;align-items:center}' +
+      '#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-summary{margin:0 0 10px!important;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center}' +
+      '#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:auto}' +
+      '#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-row{min-height:58px;padding:8px!important}' +
+      '#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-row b{font-size:12px!important}' +
+      '#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-row span,#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-row em{font-size:10px!important}' +
+      '#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-row div{display:block}' +
+      '#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-row span,#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-row em{display:block;line-height:1.35}' +
+      '#settings-panel-backup-v1014 .settings-health-details-v1014{border:1px solid #dce6ee;border-radius:9px;background:#fbfdff;margin:8px 0 10px;padding:0}' +
+      '#settings-panel-backup-v1014 .settings-health-details-v1014 summary{cursor:pointer;padding:9px 11px;font-size:11.5px;font-weight:850;color:#31536a;list-style:none}' +
+      '#settings-panel-backup-v1014 .settings-health-details-v1014 summary::-webkit-details-marker{display:none}' +
+      '#settings-panel-backup-v1014 .settings-health-details-v1014 summary::after{content:"+";float:right;font-size:15px;line-height:1}' +
+      '#settings-panel-backup-v1014 .settings-health-details-v1014[open] summary::after{content:"-"}' +
+      '#settings-panel-backup-v1014 .settings-health-details-v1014 .data-health-gate-v103-contract{margin:0 10px 8px;display:grid!important;grid-template-columns:minmax(150px,.45fr) minmax(0,1fr);gap:8px;align-items:start}' +
+      '#settings-panel-backup-v1014 .settings-health-details-v1014 .data-health-gate-v103-contract span{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.35}' +
+      '@media(max-width:1100px){#settings-panel-workflow-v1014 #settings-default-groups-v0669{grid-template-columns:1fr}#settings-panel-backup-v1014>.settings-export-card-v1014 .settings-export-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}' +
+      '@media(max-width:900px){#page-settings.settings-redesign-v1014 .settings-panel-v1014{grid-template-columns:1fr}#settings-panel-general-v1014>*,#settings-panel-backup-v1014>*{grid-column:1!important}}' +
+      '@media(max-width:640px){#settings-panel-workflow-v1014 #settings-default-groups-v0669 .settings-domain-fields,#settings-panel-workflow-v1014 #settings-notification-behavior-v0670 .behavior-grid,#settings-panel-workflow-v1014 #shelf-by-type-list,#settings-panel-backup-v1014>.settings-export-card-v1014 .settings-export-grid,#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-grid{grid-template-columns:1fr!important}#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-summary{grid-template-columns:auto minmax(0,1fr)}#settings-panel-backup-v1014 #data-health-gate-v103 .data-health-gate-v103-summary em{grid-column:1/-1;margin-left:0!important}#settings-panel-backup-v1014 .settings-health-details-v1014 .data-health-gate-v103-contract{grid-template-columns:1fr}}';
+    document.head.appendChild(style);
+  }
+
   function statusSnapshot(){
     return safe(function(){
       return window.farmBackupRestoreControlCenterV1013.status();
@@ -182,6 +247,10 @@
       plots:q('#plot-list', page)?.closest('.settings-section-card'),
       danger:q('.settings-danger-zone', page)
     };
+    if (page.__v1014Cards.farm) page.__v1014Cards.farm.classList.add('settings-farm-card-v1014');
+    if (page.__v1014Cards.workflow) page.__v1014Cards.workflow.classList.add('settings-workflow-card-v1014');
+    if (page.__v1014Cards.workers) page.__v1014Cards.workers.classList.add('settings-workers-card-v1014');
+    if (page.__v1014Cards.plots) page.__v1014Cards.plots.classList.add('settings-plots-card-v1014');
     if (page.__v1014Cards.exportCard) page.__v1014Cards.exportCard.classList.add('settings-export-card-v1014');
     return page.__v1014Cards;
   }
@@ -192,6 +261,7 @@
     if (card === cards.exportCard || card === cards.danger) return 'backup';
     if (card === cards.status) return 'system';
     const id = card.id || '';
+    if (id === 'data-health-gate-v103') return 'backup';
     if (/^backup-restore-control-center-v1013$/i.test(id)) return 'backup';
     if (/auto-backup|restore-audit|data-health|data-stability|firebase|storage|adapter/i.test(id)) return 'system';
     if (/backup|restore/i.test(id)) return 'backup';
@@ -242,6 +312,27 @@
     }
   }
 
+  function compactDataHealthCard(){
+    const card = q('#data-health-gate-v103');
+    if (!card) return;
+    card.classList.add('settings-data-health-compact-v1014');
+    const title = q('.data-health-gate-v103-head h3', card) || q('.settings-section-title', card);
+    const sub = q('.data-health-gate-v103-head p', card) || q('.settings-section-sub', card);
+    if (title) title.textContent = 'ตรวจสุขภาพข้อมูล';
+    if (sub) sub.textContent = 'ตรวจ ID และลำดับถัดไปก่อนงาน core/data/storage';
+    let details = q('.settings-health-details-v1014', card);
+    if (!details) {
+      details = document.createElement('details');
+      details.className = 'settings-health-details-v1014';
+      details.innerHTML = '<summary>ดูรายละเอียดระบบ</summary>';
+      const grid = q('.data-health-gate-v103-grid', card);
+      card.insertBefore(details, grid || null);
+    }
+    qa(':scope > .data-health-gate-v103-contract', card).forEach(function(row){
+      details.appendChild(row);
+    });
+  }
+
   function improveSystemCard(card){
     if (!card || card.classList.contains('settings-system-card-v1014')) return;
     card.classList.add('settings-system-card-v1014');
@@ -267,6 +358,7 @@
     organizing = true;
     safe(function(){
       ensureStyle();
+      ensureAlignmentStyle();
       page.classList.add('settings-redesign-v1014');
       const hero = q('.settings-hero', page);
       if (hero) {
@@ -293,6 +385,7 @@
       qa(':scope > .app-settings-stack', mainGrid).forEach(function(wrapper){ wrapper.remove(); });
       improveDangerZone(cards.danger);
       improveBackupCard();
+      compactDataHealthCard();
       qa('#settings-panel-system-v1014 > .settings-section-card').forEach(improveSystemCard);
       const badge = q('.settings-hero-badge', page);
       if (badge) badge.textContent = 'V1.0.14';
