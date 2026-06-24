@@ -2356,6 +2356,7 @@
     closeModal('modal-sale');
     renderSales();
     renderDashboard(); setTimeout(buildReportCharts, 100);
+    saveData({ mode:'user-edit', reason:'sale-save', forceLocal:true });
     showToast('✅ บันทึกการขายสำเร็จ');
   }
 
@@ -2712,6 +2713,7 @@
 
     closeModal('modal-crop');
     renderCrops();
+    saveData({ mode:'user-edit', reason:'crop-save', forceLocal:true });
   }
 
   // ============================================================
@@ -3073,6 +3075,7 @@
     }
     closeModal('modal-activity');
     renderActivities();
+    saveData({ mode:'user-edit', reason:'activity-save', forceLocal:true });
   }
 
   // ===== EXPORT PDF =====
@@ -3363,6 +3366,7 @@
     }
     closeModal('modal-cust');
     renderCustomers();
+    saveData({ mode:'user-edit', reason:'customer-save', forceLocal:true });
   }
 
   // ============================================================
@@ -3381,6 +3385,7 @@
     if (ctx === 'act')  { actItems  = actItems.filter(i => String(i.id) !== String(id));  renderActivities();showToast('🗑 ลบกิจกรรมแล้ว'); }
     if (ctx === 'cust') { custItems = custItems.filter(i => i.id !== id); renderCustomers(); showToast('🗑 ลบลูกค้าแล้ว'); }
     if (ctx === 'inv')  { invItems  = invItems.filter(i => i.id !== id);  renderInv();       showToast('🗑 ลบวัสดุแล้ว'); }
+    saveData({ mode:'user-edit', reason:'delete-' + ctx, forceLocal:true });
     closeModal('modal-confirm-del');
     _delContext = null;
   }
@@ -3915,6 +3920,7 @@
     closeModal('modal-inv');
     renderInv();
     switchInventoryTab(cat === 'ผลผลิต' ? 'produce' : 'supply');
+    saveData({ mode:'user-edit', reason:'inventory-save', forceLocal:true });
   }
 
   // ============================================================
@@ -4523,6 +4529,7 @@
 
     closeModal('modal-sale-edit');
     renderSales(); renderDashboard(); setTimeout(buildReportCharts,100);
+    saveData({ mode:'user-edit', reason:'sale-edit', forceLocal:true });
     showToast('✅ แก้ไขรายการขายสำเร็จ');
   }
 
@@ -4542,6 +4549,7 @@
         salesData.splice(idx,1);
       }
       renderSales();renderDashboard();setTimeout(buildReportCharts,100);
+      saveData({ mode:'user-edit', reason:'sale-delete', forceLocal:true });
       closeModal('modal-confirm-del');_delContext=null;
       showToast('🗑 ลบรายการขายแล้ว');return;
     }
@@ -4577,6 +4585,7 @@
     if(!target){showToast('⚠️ กรุณากรอกเป้าหมาย');return;}
     goalItems[id]={target,note};
     closeModal('modal-goal');renderGoals();
+    saveData({ mode:'user-edit', reason:'goal-save', forceLocal:true });
     showToast('🎯 บันทึกเป้าหมายสำเร็จ');
   }
 
