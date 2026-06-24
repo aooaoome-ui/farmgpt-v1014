@@ -9048,6 +9048,45 @@ ${calendarHTML}
     return JSON.stringify(clone);
   }
 
+  function readLocalPayload(){
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return (parsed && typeof parsed === 'object') ? parsed : null;
+    } catch(e) {
+      console.warn('localStorage parse failed:', e);
+      return null;
+    }
+  }
+
+  function dataTimestampMs(data, keys){
+    if (!data || typeof data !== 'object') return 0;
+    for (const key of keys) {
+      const value = data[key];
+      if (!value) continue;
+      const ms = Date.parse(value);
+      if (Number.isFinite(ms)) return ms;
+    }
+    return 0;
+  }
+
+  function shouldPreferLocalPayload(localData, cloudData){
+    if (!localData || !cloudData) return { prefer:false };
+    const localTotal = centralDataTotal(localData);
+    const cloudTotal = centralDataTotal(cloudData);
+    if (localTotal <= 0) return { prefer:false, reason:'local-empty', localTotal, cloudTotal };
+    const localFingerprint = cloudDataFingerprint(localData);
+    const cloudFingerprint = cloudDataFingerprint(cloudData);
+    if (localFingerprint === cloudFingerprint) return { prefer:false, reason:'same-data', localTotal, cloudTotal };
+    const localTime = dataTimestampMs(localData, ['savedAt', 'cloudUpdatedAt', 'updatedAt', 'seededAt']);
+    const cloudTime = dataTimestampMs(cloudData, ['cloudUpdatedAt', 'savedAt', 'updatedAt', 'seededAt']);
+    if (localTime && (!cloudTime || localTime > cloudTime + 250)) {
+      return { prefer:true, reason:'local-newer-than-cloud', localTotal, cloudTotal, localTime, cloudTime };
+    }
+    return { prefer:false, reason:'cloud-newer-or-undated', localTotal, cloudTotal, localTime, cloudTime };
+  }
+
   function recordSaveDecision(decision){
     _saveGuardStats.lastDecision = Object.assign({ at:new Date().toISOString() }, decision || {});
   }
@@ -9504,9 +9543,27 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
         const doc = await farmDocRef().get();
         if (doc.exists) {
           const cloudData = doc.data();
+          const localData = readLocalPayload();
+          const localChoice = shouldPreferLocalPayload(localData, cloudData);
           _lastCloudTotal = centralDataTotal(cloudData);
           _lastCloudFingerprint = cloudDataFingerprint(cloudData);
           _initialCloudLoadDone = true;
+          if (localChoice.prefer) {
+            _applyData(localData);
+            _lastLocalFingerprint = cloudDataFingerprint(_packData());
+            recordSaveDecision({
+              scope:'load',
+              result:'local-preferred',
+              reason:localChoice.reason,
+              localTotal:localChoice.localTotal,
+              cloudTotal:localChoice.cloudTotal
+            });
+            console.warn('Local data is newer than Firestore; preserving local payload and syncing to cloud:', localChoice);
+            await forceCloudSyncNow({ reason:'local-newer-than-cloud-on-load' });
+            attachFarmRealtimeListener();
+            console.log('💾 ใช้ข้อมูลในเครื่องที่ใหม่กว่า Firestore และสั่ง sync แล้ว');
+            return;
+          }
           _applyData(cloudData);
           _lastLocalFingerprint = cloudDataFingerprint(_packData());
           try { localStorage.setItem(LS_KEY, JSON.stringify(_packData())); } catch(e) {}
