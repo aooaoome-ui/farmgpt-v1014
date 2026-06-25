@@ -5306,7 +5306,7 @@
     }
     closeModal('modal-cal-event');
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('calendar-save');
   }
 
   function showCalDetail(id) {
@@ -5371,7 +5371,7 @@
     if (idx > -1) calEvents.splice(idx, 1);
     closeModal('modal-cal-detail');
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('calendar-delete');
     const dayModalOpen = document.getElementById('modal-cal-day')?.classList.contains('open');
     if (dayModalOpen && window._calDayActiveIso) showCalDayEvents(window._calDayActiveIso);
     showToast('🗑 ลบกิจกรรมแล้ว');
@@ -5393,7 +5393,7 @@
     closeModal('modal-cal-detail');
     renderProjects();
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('project-timeline-delete-from-calendar');
     showToast('🗑 ลบแผนงานจาก Timeline แล้ว');
   }
 
@@ -5487,7 +5487,7 @@
     document.getElementById('hl-note').value   = '';
     renderHarvestLogTable(crop);
     renderCrops();
-    saveData();
+    saveDailyUserEdit('harvest-log-add');
     showToast(`✅ บันทึกการเก็บเกี่ยว ${weight} กก. · ปรับสถานะเป็นเก็บเกี่ยวแล้ว · รวม ${crop.yieldActual} กก.`);
   }
 
@@ -5498,7 +5498,7 @@
     crop.yieldActual = crop.harvestLog.reduce((s,e)=>s+e.weight, 0) || '';
     renderHarvestLogTable(crop);
     renderCrops();
-    saveData();
+    saveDailyUserEdit('harvest-log-delete');
     showToast(`🗑 ลบรายการ ${removed.weight} กก. แล้ว`);
   }
 
@@ -6025,7 +6025,7 @@
     closeModal('modal-requisition');
     renderInv();
     renderReqHistory();
-    saveData();
+    saveDailyUserEdit('requisition-save');
     showToast(`✅ เบิก ${item.name} ${qty} ${item.unit} สำเร็จ · มูลค่า ${totalCost.toLocaleString('th-TH')} ฿`);
   }
 
@@ -6061,7 +6061,7 @@
     reqItems = reqItems.filter(x => x.id !== id);
     renderInv();
     renderReqHistory();
-    saveData();
+    saveDailyUserEdit('requisition-delete');
     showToast('🗑 ลบประวัติการเบิกและคืนวัสดุแล้ว');
   }
 
@@ -6117,7 +6117,7 @@
     if (table === 'customers')  { renderCustomers();  }
     if (table === 'produce' || table === 'supply') { renderInv(); }
     showToast(`🗑 ลบ ${ids.length} รายการแล้ว`);
-    saveData();
+    saveDailyUserEdit('bulk-delete-' + table);
   }
 
   // ============================================================
@@ -6240,7 +6240,7 @@
     }
     closeModal('modal-project');
     renderProjects();
-    saveData();
+    saveDailyUserEdit('project-save');
   }
 
   function deleteProject(id) {
@@ -6249,7 +6249,7 @@
     projectItems = projectItems.filter(x => x.id !== id);
     closeModal('modal-project-detail');
     renderProjects();
-    saveData();
+    saveDailyUserEdit('project-delete');
     showToast('🗑 ลบโครงการแล้ว');
   }
 
@@ -6826,7 +6826,7 @@
     _syncProjPctFromTimeline(p);
     _renderTimelineSteps(p);
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('project-timeline-save');
   }
 
   function addTimelineStep() {
@@ -6860,7 +6860,7 @@
     _renderTimelineSteps(p);
     renderProjects();
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('project-timeline-reorder');
     showToast('↕️ จัดเรียง Timeline แล้ว');
   }
 
@@ -6876,7 +6876,7 @@
     _renderTimelineSteps(p);
     _syncProjPctFromTimeline(p);
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('project-timeline-status');
     showToast(`✅ อัปเดต: ${p.timeline[idx].title} → ${TL_STATUS[newStatus]?.label}`);
   }
 
@@ -6891,7 +6891,7 @@
     _renderTimelineSteps(p);
     _syncProjPctFromTimeline(p);
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('project-timeline-delete');
     showToast('🗑 ลบแผนงานแล้ว');
   }
 
@@ -6941,7 +6941,7 @@
     _renderTimelineSteps(p);
     renderProjects();
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('project-timeline-task-save');
   }
 
   function toggleTimelineSubtask(stepIdx, taskIdx, checked) {
@@ -6955,7 +6955,7 @@
     _syncProjPctFromTimeline(p);
     _renderTimelineSteps(p);
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('project-timeline-task-toggle');
   }
 
   function deleteTimelineSubtask(stepIdx, taskIdx) {
@@ -6970,7 +6970,7 @@
     _syncProjPctFromTimeline(p);
     _renderTimelineSteps(p);
     renderCalendar();
-    saveData();
+    saveDailyUserEdit('project-timeline-task-delete');
     showToast('🗑 ลบรายการงานแล้ว');
   }
 
@@ -8757,7 +8757,7 @@ ${calendarHTML}
     farmSettings.workers.push(val);
     inp.value = '';
     renderWorkerList();
-    saveData();
+    saveDailyUserEdit('settings-worker-add');
     showToast('✅ เพิ่มผู้ปฏิบัติงาน: ' + val);
   }
 
@@ -8765,7 +8765,7 @@ ${calendarHTML}
     const name = farmSettings.workers[idx];
     farmSettings.workers.splice(idx, 1);
     renderWorkerList();
-    saveData();
+    saveDailyUserEdit('settings-worker-delete');
     showToast('🗑 ลบ ' + name + ' แล้ว');
   }
 
@@ -8777,7 +8777,7 @@ ${calendarHTML}
     farmSettings.plots.push(val);
     inp.value = '';
     renderPlotList();
-    saveData();
+    saveDailyUserEdit('settings-plot-add');
     showToast('✅ เพิ่มแปลง: ' + val);
   }
 
@@ -8785,7 +8785,7 @@ ${calendarHTML}
     const name = farmSettings.plots[idx];
     farmSettings.plots.splice(idx, 1);
     renderPlotList();
-    saveData();
+    saveDailyUserEdit('settings-plot-delete');
     showToast('🗑 ลบแปลง ' + name + ' แล้ว');
   }
 
@@ -8797,7 +8797,7 @@ ${calendarHTML}
     farmSettings.desc     = document.getElementById('st-farm-desc').value.trim();
     // Update sidebar badge
     _applySidebarInfo();
-    saveData();
+    saveDailyUserEdit('settings-farm-save');
     renderSettingsSummary();
     showToast('✅ บันทึกข้อมูลฟาร์มแล้ว');
   }
@@ -8816,7 +8816,7 @@ ${calendarHTML}
       const el = document.getElementById('st-shelf-' + t);
       if (el && el.value) farmSettings.shelfByType[t] = parseInt(el.value) || farmSettings.shelfLife;
     });
-    saveData();
+    saveDailyUserEdit('settings-defaults-save');
     renderSettingsSummary();
     showToast('✅ บันทึกค่าเริ่มต้นแล้ว');
   }
@@ -9109,6 +9109,16 @@ ${calendarHTML}
       forceLocal: opts.forceLocal === true,
       forceCloud: opts.forceCloud === true
     };
+  }
+
+  function saveDailyUserEdit(reason, extraOptions){
+    const opts = Object.assign({}, extraOptions || {}, {
+      mode: 'user-edit',
+      reason: reason || 'daily-user-edit',
+      forceLocal: true
+    });
+    _lastUserIntentAt = Date.now();
+    return saveData(opts);
   }
 
   function markCloudUserIntent(event){
@@ -12418,7 +12428,7 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
     try{ if(typeof _fpDraft !== 'undefined' && _fpDraft && String(_fpDraft.id) === String(id)) _fpDraft = null; }catch(e){}
     window.closePlantingPlanDetail?.();
     try{ if(typeof closePlantingPlanModal === 'function') closePlantingPlanModal(); }catch(e){}
-    try{ if(typeof saveData === 'function') saveData(); }catch(e){}
+    try{ if(typeof saveDailyUserEdit === 'function') saveDailyUserEdit('planting-plan-delete'); else if(typeof saveData === 'function') saveData({ mode:'user-edit', reason:'planting-plan-delete', forceLocal:true }); }catch(e){}
     refreshAll();
     toast('ลบแผนปลูกและงานปฏิทินที่เกี่ยวข้องแล้ว');
   };
@@ -12436,7 +12446,7 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
       _fpDraft = null;
       setPlanModalMode('add');
       try{ if(typeof closePlantingPlanModal === 'function') closePlantingPlanModal(); }catch(e){}
-      try{ if(typeof saveData === 'function') saveData(); }catch(e){}
+      try{ if(typeof saveDailyUserEdit === 'function') saveDailyUserEdit('planting-plan-save'); else if(typeof saveData === 'function') saveData({ mode:'user-edit', reason:'planting-plan-save', forceLocal:true }); }catch(e){}
       refreshAll();
       toast(idx >= 0 ? '✅ แก้ไขแผนปลูกและอัปเดตปฏิทินแล้ว' : '✅ บันทึกแผนปลูกและส่งงานเข้าปฏิทินแล้ว');
     }catch(err){ console.warn(VERSION, 'savePlantingPlan warning', err); toast('บันทึกแผนปลูกไม่สำเร็จ'); }
@@ -13525,7 +13535,7 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
     const plan = cloneDraft();
     if(!plan){ if(typeof showToast === 'function') showToast('ยังไม่มีข้อมูลแผนปลูกให้บันทึก'); return; }
     upsertPlan(plan);
-    safe(function(){ if(typeof saveData === 'function') saveData(); });
+    safe(function(){ if(typeof saveDailyUserEdit === 'function') saveDailyUserEdit('planting-plan-draft-save'); else if(typeof saveData === 'function') saveData({ mode:'user-edit', reason:'planting-plan-draft-save', forceLocal:true }); });
     safe(function(){ if(typeof renderPlantingPlans === 'function') renderPlantingPlans(); });
     safe(function(){ if(typeof renderPlantingDraft === 'function') renderPlantingDraft(); });
     safe(function(){ if(typeof renderPlantingOverviewExtras === 'function') renderPlantingOverviewExtras(); });
@@ -13537,7 +13547,7 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
     if(!plan){ if(typeof showToast === 'function') showToast('ยังไม่มีข้อมูลแผนปลูกให้ซิงค์'); return; }
     upsertPlan(plan);
     safe(function(){ if(typeof addPlanTasksToCalendar === 'function') addPlanTasksToCalendar(plan); });
-    safe(function(){ if(typeof saveData === 'function') saveData(); });
+    safe(function(){ if(typeof saveDailyUserEdit === 'function') saveDailyUserEdit('planting-plan-sync-current'); else if(typeof saveData === 'function') saveData({ mode:'user-edit', reason:'planting-plan-sync-current', forceLocal:true }); });
     refreshPlanning();
     if(typeof showToast === 'function') showToast('✅ ซิงค์แผนนี้เข้าปฏิทินแล้ว');
   };
@@ -13999,7 +14009,7 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
     }
     if(!farmSettings || typeof farmSettings !== 'object') farmSettings = {};
     farmSettings.materialPlanSeeded = true;
-    safe(()=>saveData());
+    safe(()=>saveDailyUserEdit('material-plan-save'));
     renderFarmInputPlans();
     closeFarmMaterialPlanForm();
     safe(()=>showToast('✅ บันทึกแผนผลิตวัสดุปลูกแล้ว'));
@@ -14019,7 +14029,7 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
     farmInputPlans.splice(i, 1);
     if(!farmSettings || typeof farmSettings !== 'object') farmSettings = {};
     farmSettings.materialPlanSeeded = true;
-    safe(()=>saveData());
+    safe(()=>saveDailyUserEdit('material-plan-delete'));
     renderFarmInputPlans();
     safe(()=>showToast('ลบแผนผลิตวัสดุปลูกแล้ว'));
   };
@@ -14029,7 +14039,7 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
     item.status = 'พร้อมใช้';
     item.ready = item.ready || todayIso();
     item.updatedAt = new Date().toISOString();
-    safe(()=>saveData());
+    safe(()=>saveDailyUserEdit('material-plan-ready'));
     renderFarmInputPlans();
     safe(()=>showToast('✅ เปลี่ยนสถานะเป็นพร้อมใช้แล้ว'));
   };
@@ -14240,7 +14250,7 @@ renderFarmInputPlans = function(){ _oldRenderFarmInputPlans_v066(); renderPlanti
     if(!materials()[i]) return;
     materials().splice(i, 1);
     safe(function(){ if(!farmSettings || typeof farmSettings !== 'object') farmSettings = {}; farmSettings.materialPlanSeeded = true; });
-    safe(function(){ if(typeof saveData === 'function') saveData(); });
+    safe(function(){ if(typeof saveDailyUserEdit === 'function') saveDailyUserEdit('material-plan-detail-delete'); else if(typeof saveData === 'function') saveData({ mode:'user-edit', reason:'material-plan-detail-delete', forceLocal:true }); });
     safe(function(){ if(typeof renderFarmInputPlans === 'function') renderFarmInputPlans(); });
     safe(function(){ if(typeof renderCleanCommandCenter === 'function') renderCleanCommandCenter(); });
     closeFarmMaterialDetail();
